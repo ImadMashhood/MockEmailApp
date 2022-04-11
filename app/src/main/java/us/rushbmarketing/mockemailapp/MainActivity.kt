@@ -4,13 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.*
 import us.rushbmarketing.mockemailapp.components.HomeAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import us.rushbmarketing.mockemailapp.components.HomeBottomMenu
+import us.rushbmarketing.mockemailapp.components.MailDrawerMenu
 import us.rushbmarketing.mockemailapp.ui.theme.MockEmailAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -32,8 +35,22 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun mailApp() {
-    Scaffold(topBar = {HomeAppBar()}) {
-        
+    val scaffoldState = rememberScaffoldState()
+    val coroutineScope = rememberCoroutineScope()
+    val scrollState = rememberScrollState()
+    Scaffold(
+        scaffoldState = scaffoldState,
+        topBar = {HomeAppBar(scaffoldState, coroutineScope)},
+        drawerContent = {
+            MailDrawerMenu(scrollState)
+        },
+        bottomBar = {
+            HomeBottomMenu()
+        }
+    ) {
+        LazyColumn{
+
+        }
     }
 }
 
